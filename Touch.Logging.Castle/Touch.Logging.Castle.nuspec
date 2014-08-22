@@ -2,14 +2,14 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>Touch.Logging.Castle</id>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
         <authors>Artem Abashev</authors>
         <projectUrl>https://github.com/Touch-SDK/Touch.Logging</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Castle Windsor logger for Touch SDK.</description>
         <dependencies>
-            <dependency id="Touch" version="1.0.0" />
             <dependency id="Castle.LoggingFacility" version="3.3.0" />
+            <dependency id="Touch" version="1.0.12" />
         </dependencies>
     </metadata>
     <files>

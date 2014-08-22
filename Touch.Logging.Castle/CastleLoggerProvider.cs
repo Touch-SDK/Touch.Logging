@@ -1,4 +1,5 @@
-﻿using Castle.Core.Logging;
+﻿using System;
+using Castle.Core.Logging;
 
 namespace Touch.Logging
 {
@@ -21,7 +22,12 @@ namespace Touch.Logging
         #region ILoggerProvider implementation
         public ILogger Get<T>() where T : class
         {
-            return new CastleLogger(_factory.Create(typeof(T)));
+            return Get(typeof(T));
+        }
+
+        public ILogger Get(Type type)
+        {
+            return new CastleLogger(_factory.Create(type));
         }
         #endregion
     }
