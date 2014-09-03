@@ -13,8 +13,6 @@
 // limitations under the License.
 
 using System;
-using System.IO;
-using log4net.Config;
 using log4net.Core;
 using System.Reflection;
 
@@ -23,26 +21,9 @@ namespace Touch.Logging
     [Serializable]
     sealed public class Log4NetLogger : ILogger
     {
-        public Log4NetLogger() :
-            this(null)
-        {
-        }
-
-        public Log4NetLogger(string configPath)
+        public Log4NetLogger()
         {
             _logger = log4net.LogManager.GetLogger(Assembly.GetCallingAssembly(), String.Empty).Logger;
-
-            try
-            {
-                if (!string.IsNullOrEmpty(configPath))
-                    XmlConfigurator.Configure(new FileInfo(configPath));
-                else
-                    XmlConfigurator.Configure();
-            }
-            catch
-            {
-                BasicConfigurator.Configure();
-            }
         }
 
         private Type _ownerType = typeof(Log4NetLogger);
@@ -50,11 +31,6 @@ namespace Touch.Logging
         {
             get { return _ownerType; }
             set { _ownerType = value; }
-        }
-
-        public IDisposable Stack(string name)
-        {
-            return log4net.LogicalThreadContext.Stacks["NDC"].Push(name);
         }
 
         private readonly log4net.Core.ILogger _logger;
