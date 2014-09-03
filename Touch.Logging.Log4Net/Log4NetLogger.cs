@@ -13,28 +13,21 @@
 // limitations under the License.
 
 using System;
-using log4net.Core;
-using System.Reflection;
+using log4net;
 
 namespace Touch.Logging
 {
     [Serializable]
     sealed public class Log4NetLogger : ILogger
     {
-        public Log4NetLogger()
+        public Log4NetLogger(ILog logger)
         {
-            _logger = log4net.LogManager.GetLogger(Assembly.GetCallingAssembly(), String.Empty).Logger;
+            if (logger == null) throw new ArgumentNullException("logger");
+            _logger = logger;
         }
 
-        private Type _ownerType = typeof(Log4NetLogger);
-        public Type OwnerType
-        {
-            get { return _ownerType; }
-            set { _ownerType = value; }
-        }
-
-        private readonly log4net.Core.ILogger _logger;
-        private log4net.Core.ILogger Logger
+        private readonly ILog _logger;
+        private ILog Logger
         {
             get { return _logger; }
         }
@@ -50,7 +43,7 @@ namespace Touch.Logging
         {
             if (IsDebugEnabled)
             {
-                Logger.Log(_ownerType, Level.Debug, message, null);
+                Logger.Debug(message);
             }
         }
 
@@ -58,7 +51,7 @@ namespace Touch.Logging
         {
             if (IsDebugEnabled)
             {
-                Logger.Log(_ownerType, Level.Debug, message, exception);
+                Logger.Debug(message, exception);
             }
         }
 
@@ -66,7 +59,7 @@ namespace Touch.Logging
         {
             if (IsDebugEnabled)
             {
-                Logger.Log(_ownerType, Level.Debug, String.Format(format, args), null);
+                Logger.Debug(String.Format(format, args));
             }
         }
 
@@ -74,7 +67,7 @@ namespace Touch.Logging
         {
             if (IsDebugEnabled)
             {
-                Logger.Log(_ownerType, Level.Debug, String.Format(format, args), exception);
+                Logger.Debug(String.Format(format, args), exception);
             }
         }
 
@@ -82,7 +75,7 @@ namespace Touch.Logging
         {
             if (IsDebugEnabled)
             {
-                Logger.Log(_ownerType, Level.Debug, String.Format(formatProvider, format, args), null);
+                Logger.Debug(String.Format(formatProvider, format, args));
             }
         }
 
@@ -90,7 +83,7 @@ namespace Touch.Logging
         {
             if (IsDebugEnabled)
             {
-                Logger.Log(_ownerType, Level.Debug, String.Format(formatProvider, format, args), exception);
+                Logger.Debug(String.Format(formatProvider, format, args), exception);
             }
         }
 
@@ -102,7 +95,7 @@ namespace Touch.Logging
         {
             if (IsInfoEnabled)
             {
-                Logger.Log(_ownerType, Level.Info, message, null);
+                Logger.Info(message);
             }
         }
 
@@ -110,7 +103,7 @@ namespace Touch.Logging
         {
             if (IsInfoEnabled)
             {
-                Logger.Log(_ownerType, Level.Info, message, exception);
+                Logger.Info(message, exception);
             }
         }
 
@@ -118,7 +111,7 @@ namespace Touch.Logging
         {
             if (IsInfoEnabled)
             {
-                Logger.Log(_ownerType, Level.Info, String.Format(format, args), null);
+                Logger.Info(String.Format(format, args));
             }
         }
 
@@ -126,7 +119,7 @@ namespace Touch.Logging
         {
             if (IsInfoEnabled)
             {
-                Logger.Log(_ownerType, Level.Info, String.Format(format, args), exception);
+                Logger.Info(String.Format(format, args), exception);
             }
         }
 
@@ -134,7 +127,7 @@ namespace Touch.Logging
         {
             if (IsInfoEnabled)
             {
-                Logger.Log(_ownerType, Level.Info, String.Format(formatProvider, format, args), null);
+                Logger.Info(String.Format(formatProvider, format, args));
             }
         }
 
@@ -142,7 +135,7 @@ namespace Touch.Logging
         {
             if (IsInfoEnabled)
             {
-                Logger.Log(_ownerType, Level.Info, String.Format(formatProvider, format, args), exception);
+                Logger.Info(String.Format(formatProvider, format, args), exception);
             }
         }
 
@@ -154,7 +147,7 @@ namespace Touch.Logging
         {
             if (IsWarnEnabled)
             {
-                Logger.Log(_ownerType, Level.Warn, message, null);
+                Logger.Warn(message);
             }
         }
 
@@ -162,7 +155,7 @@ namespace Touch.Logging
         {
             if (IsWarnEnabled)
             {
-                Logger.Log(_ownerType, Level.Warn, message, exception);
+                Logger.Warn(message, exception);
             }
         }
 
@@ -170,7 +163,7 @@ namespace Touch.Logging
         {
             if (IsWarnEnabled)
             {
-                Logger.Log(_ownerType, Level.Warn, String.Format(format, args), null);
+                Logger.Warn(String.Format(format, args));
             }
         }
 
@@ -178,7 +171,7 @@ namespace Touch.Logging
         {
             if (IsWarnEnabled)
             {
-                Logger.Log(_ownerType, Level.Warn, String.Format(format, args), exception);
+                Logger.Warn(String.Format(format, args), exception);
             }
         }
 
@@ -186,7 +179,7 @@ namespace Touch.Logging
         {
             if (IsWarnEnabled)
             {
-                Logger.Log(_ownerType, Level.Warn, String.Format(formatProvider, format, args), null);
+                Logger.Warn(String.Format(formatProvider, format, args));
             }
         }
 
@@ -194,7 +187,7 @@ namespace Touch.Logging
         {
             if (IsWarnEnabled)
             {
-                Logger.Log(_ownerType, Level.Warn, String.Format(formatProvider, format, args), exception);
+                Logger.Warn(String.Format(formatProvider, format, args), exception);
             }
         }
 
@@ -206,7 +199,7 @@ namespace Touch.Logging
         {
             if (IsErrorEnabled)
             {
-                Logger.Log(_ownerType, Level.Error, message, null);
+                Logger.Error(message);
             }
         }
 
@@ -214,7 +207,7 @@ namespace Touch.Logging
         {
             if (IsErrorEnabled)
             {
-                Logger.Log(_ownerType, Level.Error, message, exception);
+                Logger.Error(message, exception);
             }
         }
 
@@ -222,7 +215,7 @@ namespace Touch.Logging
         {
             if (IsErrorEnabled)
             {
-                Logger.Log(_ownerType, Level.Error, String.Format(format, args), null);
+                Logger.Error(String.Format(format, args));
             }
         }
 
@@ -230,7 +223,7 @@ namespace Touch.Logging
         {
             if (IsErrorEnabled)
             {
-                Logger.Log(_ownerType, Level.Error, String.Format(format, args), exception);
+                Logger.Error(String.Format(format, args), exception);
             }
         }
 
@@ -238,7 +231,7 @@ namespace Touch.Logging
         {
             if (IsErrorEnabled)
             {
-                Logger.Log(_ownerType, Level.Error, String.Format(formatProvider, format, args), null);
+                Logger.Error(String.Format(formatProvider, format, args));
             }
         }
 
@@ -246,7 +239,7 @@ namespace Touch.Logging
         {
             if (IsErrorEnabled)
             {
-                Logger.Log(_ownerType, Level.Error, String.Format(formatProvider, format, args), exception);
+                Logger.Error(String.Format(formatProvider, format, args), exception);
             }
         }
 
@@ -258,7 +251,7 @@ namespace Touch.Logging
         {
             if (IsFatalEnabled)
             {
-                Logger.Log(_ownerType, Level.Fatal, message, null);
+                Logger.Fatal(message);
             }
         }
 
@@ -266,7 +259,7 @@ namespace Touch.Logging
         {
             if (IsFatalEnabled)
             {
-                Logger.Log(_ownerType, Level.Fatal, message, exception);
+                Logger.Fatal(message, exception);
             }
         }
 
@@ -274,7 +267,7 @@ namespace Touch.Logging
         {
             if (IsFatalEnabled)
             {
-                Logger.Log(_ownerType, Level.Fatal, String.Format(format, args), null);
+                Logger.Fatal(String.Format(format, args));
             }
         }
 
@@ -282,7 +275,7 @@ namespace Touch.Logging
         {
             if (IsFatalEnabled)
             {
-                Logger.Log(_ownerType, Level.Fatal, String.Format(format, args), exception);
+                Logger.Fatal(String.Format(format, args), exception);
             }
         }
 
@@ -290,7 +283,7 @@ namespace Touch.Logging
         {
             if (IsFatalEnabled)
             {
-                Logger.Log(_ownerType, Level.Fatal, String.Format(formatProvider, format, args), null);
+                Logger.Fatal(String.Format(formatProvider, format, args));
             }
         }
 
@@ -298,7 +291,7 @@ namespace Touch.Logging
         {
             if (IsFatalEnabled)
             {
-                Logger.Log(_ownerType, Level.Fatal, String.Format(formatProvider, format, args), exception);
+                Logger.Fatal(String.Format(formatProvider, format, args), exception);
             }
         }
 
@@ -308,27 +301,27 @@ namespace Touch.Logging
 
         public bool IsErrorEnabled
         {
-            get { return Logger.IsEnabledFor(Level.Error); }
+            get { return Logger.IsErrorEnabled; }
         }
 
         public bool IsWarnEnabled
         {
-            get { return Logger.IsEnabledFor(Level.Warn); }
+            get { return Logger.IsWarnEnabled; }
         }
 
         public bool IsDebugEnabled
         {
-            get { return Logger.IsEnabledFor(Level.Debug); }
+            get { return Logger.IsDebugEnabled; }
         }
 
         public bool IsFatalEnabled
         {
-            get { return Logger.IsEnabledFor(Level.Fatal); }
+            get { return Logger.IsFatalEnabled; }
         }
 
         public bool IsInfoEnabled
         {
-            get { return Logger.IsEnabledFor(Level.Info); }
+            get { return Logger.IsInfoEnabled; }
         }
 
         #endregion
